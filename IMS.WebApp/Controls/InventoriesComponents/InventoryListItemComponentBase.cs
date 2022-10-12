@@ -7,5 +7,13 @@ namespace IMS.WebApp.Controls
     {
         [Parameter]
         public IEnumerable<Inventory> Inventories { get; set; } = Enumerable.Empty<Inventory>();
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
+        private readonly string _editInventoryUrl = "/editInventory";
+
+        public void EditInventory(int id)
+        {
+            NavigationManager.NavigateTo($"{_editInventoryUrl}/{id}");
+        }
     }
 }

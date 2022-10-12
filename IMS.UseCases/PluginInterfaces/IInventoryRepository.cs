@@ -12,5 +12,6 @@ namespace IMS.UseCases.PluginInterfaces
         public Task<IEnumerable<Inventory>> ListInventoriesByNameAsync(string name);
         Task AddInventoryAsync(Inventory inventory);
         Task UpdateInventoryAsync(Inventory inventory);
+        Task<Inventory> GetInventoryByIdAsync(int id);
     }
 }

@@ -35,11 +35,45 @@ namespace IMS.Plugins.InMemory.Repositories
             return Task.CompletedTask;
         }
 
+        public async Task<Inventory> GetInventoryByIdAsync(int id)
+        {
+            var inventory = _inventories.FirstOrDefault(x => x.Id == id);
+            if (inventory == null)
+                throw new Exception("Inventory does not exist in database");
+
+            var newInventory = new Inventory()
+            {
+                Id = inventory.Id,
+                Name = inventory.Name,
+                Quantity = inventory.Quantity,
+                Price = inventory.Price,
+            };
+
+            return await Task.FromResult(newInventory);
+        }
+
         public async Task<IEnumerable<Inventory>> ListInventoriesByNameAsync(string name)
         {
             if (string.IsNullOrWhiteSpace(name)) return await Task.FromResult(_inventories);
 
             return _inventories.Where(x => x.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public Task UpdateInventoryAsync(Inventory inventory)
+        {
+            if (_inventories.Any(x => x.Id != inventory.Id &&
+                x.Name.Equals(inventory.Name, StringComparison.OrdinalIgnoreCase)))
+                throw new Exception($"{inventory.Name} with same name already exists");
+
+            var inventoryToUpdate = _inventories.FirstOrDefault(x => x.Id == inventory.Id);
+            if (inventoryToUpdate == null)
+                throw new Exception("Inventory does not exist in database");
+
+            inventoryToUpdate.Name = inventory.Name;
+            inventoryToUpdate.Quantity = inventory.Quantity;
+            inventoryToUpdate.Price = inventory.Price;
+
+            return Task.CompletedTask;
         }
     }
 }
