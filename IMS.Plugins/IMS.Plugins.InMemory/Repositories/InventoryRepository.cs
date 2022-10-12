@@ -23,6 +23,18 @@ namespace IMS.Plugins.InMemory.Repositories
             };
         }
 
+        public Task AddInventoryAsync(Inventory inventory)
+        {
+            if (_inventories.Any(x => x.Name.Contains(inventory.Name, StringComparison.OrdinalIgnoreCase)))
+                throw new Exception("Inventory with same name already exists");
+
+            var maxId = _inventories.Max(x => x.Id);
+            inventory.Id = maxId;
+
+            _inventories.Add(inventory);
+            return Task.CompletedTask;
+        }
+
         public async Task<IEnumerable<Inventory>> ListInventoriesByNameAsync(string name)
         {
             if (string.IsNullOrWhiteSpace(name)) return await Task.FromResult(_inventories);

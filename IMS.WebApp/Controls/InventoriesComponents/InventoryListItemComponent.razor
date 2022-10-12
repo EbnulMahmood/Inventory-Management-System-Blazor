@@ -1,0 +1,16 @@
+﻿@inherits InventoryListItemComponentBase
+
+@foreach (var item in Inventories)
+{
+    <tr>
+        <td>@item.Name</td>
+        <td>@item.Quantity</td>
+        <td>@item.Price.ToString("c")</td>
+        <td>
+            <button type="button"
+                class="btn btn-light">
+                Edit
+            </button>
+        </td>
+    </tr>
+}
