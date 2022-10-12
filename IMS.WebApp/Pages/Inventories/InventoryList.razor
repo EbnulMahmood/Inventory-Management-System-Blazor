@@ -1,3 +1,7 @@
 ﻿@page "/inventories"
+@inherits InventoryListBase
 
 <h3>Inventory List</h3>
+
+<SearchInventoryComponent OnSearchInventory="OnSearchInventory" />
+<InventoryListComponent SearchTerm="@SearchTerm" />
